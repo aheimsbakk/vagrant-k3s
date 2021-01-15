@@ -27,7 +27,8 @@ Vagrant.configure("2") do |config|
     [ ! -z "${PROXY}" ] || echo 'Acquire::http::proxy "http://'${PROXY}':3142/";' > /etc/apt/apt.conf.d/80proxy
 
     apt-get update
-    apt-get install -y ansible
+    apt-get install -y python3-pip
+    pip3 install ansible==2.9.16
   SHELL
 
   config.vm.provision "k3s", type: "ansible_local" do |a|

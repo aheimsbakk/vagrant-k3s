@@ -167,8 +167,8 @@
 
     - name: get k3s install script from stable branch
       get_url:
-        url: https://raw.githubusercontent.com/k3s-io/k3s/release-1.19/install.sh
-        checksum: sha256:e98ad0e3f19e4b042136f5b481a13c289f513387e3ea66e939445dc790f355a8
+        url: https://raw.githubusercontent.com/k3s-io/k3s/v1.20.2%2Bk3s1/install.sh
+        checksum: sha256:c63032985492e6fb3e7642b244a22ec7ad2f5a4f023a729de77b941dd19c6a59
         dest: /root/install.sh
         mode: 0755
 
@@ -183,7 +183,14 @@
     - name: run k3s installation
       command: /root/install.sh
       environment:
-        INSTALL_K3S_EXEC: "{{ docker_arg|default('') }} --node-ip {{ node_ip }} --disable traefik --disable servicelb --disable metrics-server --default-local-storage-path /opt --write-kubeconfig-mode 666 --write-kubeconfig /home/vagrant/.kube/config"
+        INSTALL_K3S_EXEC: "{{ docker_arg|default('') }} \
+                           --node-ip {{ node_ip }} \
+                           --disable traefik \
+                           --disable servicelb \
+                           --disable metrics-server \
+                           --default-local-storage-path /opt \
+                           --write-kubeconfig-mode 666 \
+                           --write-kubeconfig /home/vagrant/.kube/config"
         INSTALL_K3S_VERSION: "{{ k3s_version }}"
       register: k3s_server
       changed_when: k3s_server.rc == 0
