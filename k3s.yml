@@ -1,5 +1,5 @@
 ---
-- name: configure k3s master
+- name: single node kubernetes with k3s
   hosts: k3s
   become: true
 
